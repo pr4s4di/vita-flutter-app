@@ -10,7 +10,7 @@ class ChatTextTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(DateFormat('kk:mm').format(time),
+    return Text(DateFormat('hh:mm').format(time),
         style: const TextStyle(
             fontFamily: poppins,
             fontSize: 10,

@@ -1,5 +1,5 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:vita_client_app/data/model/response/scanned_image.dart';
+import 'package:vita_client_app/data/model/entity/message.dart';
 import 'package:vita_client_app/domain/scan_image.dart';
 import 'package:vita_client_app/repository/image_repository.dart';
 import 'package:vita_client_app/repository/message_repository.dart';
@@ -11,12 +11,10 @@ class ScanImageImpl implements ScanImage {
   ScanImageImpl(this._imageRepository, this._messageRepository);
 
   @override
-  Future<ScannedImage> call(XFile image) async {
-    var response = await _imageRepository.scanImage(image);
+  Future<List<Message>> call(XFile image, String message) async {
+    var response = await _imageRepository.scanImage(image, message);
     var result = response.body!;
-    await _imageRepository.clear();
-    _messageRepository.inserts(result.messages);
-    _imageRepository.inserts(result.possibilities);
+    _messageRepository.inserts(result);
     return result;
   }
 }

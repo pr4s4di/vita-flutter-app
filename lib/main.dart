@@ -6,6 +6,7 @@ import 'package:vita_client_app/util/constant/font.dart';
 import 'package:vita_client_app/util/constant/routes.dart';
 import 'package:vita_client_app/view/chat/bloc/chat_bloc.dart';
 import 'package:vita_client_app/view/chat/chat_screen.dart';
+import 'package:vita_client_app/view/chat_image/chat_image_screen.dart';
 import 'package:vita_client_app/view/login/bloc/login_bloc.dart';
 import 'package:vita_client_app/view/login/login_screen.dart';
 import 'package:vita_client_app/view/profile/bloc/profile_bloc.dart';
@@ -31,8 +32,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => SplashBloc(di.get(), di.get())),
           BlocProvider(
-              create: (_) => ChatBloc(
-                  di.get(), di.get(), di.get(), di.get(), di.get(), di.get())),
+              create: (_) => ChatBloc(di.get(), di.get(), di.get(), di.get(), di.get())),
           BlocProvider(create: (_) => LoginBloc(di.get(), di.get())),
           BlocProvider(create: (_) => RegisterBloc(di.get())),
           BlocProvider(create: (_) => ProfileBloc(di.get(), di.get()))
@@ -47,7 +47,8 @@ class MyApp extends StatelessWidget {
             Routes.chat: (_) => ChatScreen(),
             Routes.login: (_) => const LoginScreen(),
             Routes.register: (_) => const RegisterScreen(),
-            Routes.profile: (_) => const ProfileScreen()
+            Routes.profile: (_) => const ProfileScreen(),
+            Routes.chatImage: (_) => const ChatImageScreen(),
           },
           initialRoute: Routes.splash,
           theme: ThemeData(

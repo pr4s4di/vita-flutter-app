@@ -1,7 +1,7 @@
 import "dart:async";
 
 import 'package:chopper/chopper.dart';
-import 'package:vita_client_app/data/model/response/scanned_image.dart';
+import 'package:vita_client_app/data/model/entity/message.dart';
 
 part 'image_service.chopper.dart';
 
@@ -11,5 +11,8 @@ abstract class ImageService extends ChopperService {
 
   @Post()
   @multipart
-  Future<Response<ScannedImage>> scanImage(@PartFile('image') String image);
+  Future<Response<List<Message>>> scanImage(
+    @PartFile('image') String image,
+    @Part('message') String message,
+  );
 }

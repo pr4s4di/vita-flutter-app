@@ -8,7 +8,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:vita_client_app/data/model/entity/message.dart';
-import 'package:vita_client_app/data/model/request/reply_message.dart';
 import 'package:vita_client_app/data/model/request/send_message.dart';
 import 'package:vita_client_app/data/model/response/response_error.dart';
 import 'package:vita_client_app/data/source/local/message_dao.dart';
@@ -135,45 +134,6 @@ void main() {
       when(mockMessageService.sendMessage(request)).thenThrow(expectedError);
       verifyNever(mockMessageService.sendMessage(request));
       expect(() => messageRepository.sendMessage(request),
-          throwsA(const TypeMatcher<HttpException>()));
-    });
-  });
-
-  group("Reply message", () {
-    ReplyMessage request = createReplyMessageRequest();
-
-    test("Reply message success", () async {
-      List<Message> expectedMessages = createListMessage();
-      var expectedResponse = Response(
-          http.Response(
-              jsonEncode(expectedMessages.map((e) => e.toJson()).toList()),
-              200),
-          expectedMessages);
-      when(mockMessageService.replyMessage(request))
-          .thenAnswer((_) => Future.value(expectedResponse));
-      var response = await messageRepository.replyMessage(request);
-      verify(mockMessageService.replyMessage(request));
-      expect(response, expectedResponse);
-    });
-
-    test("Reply message failed should return response error", () async {
-      ResponseError expectedResponseError = createResponseError();
-      var expectedResponse = Response<List<Message>>(
-          http.Response(jsonEncode(expectedResponseError.toJson()), 401), null,
-          error: expectedResponseError);
-      when(mockMessageService.replyMessage(request))
-          .thenAnswer((_) => Future.value(expectedResponse));
-      verifyNever(mockMessageService.replyMessage(request));
-      var response = await messageRepository.replyMessage(request);
-      expect(response, expectedResponse);
-      expect(response.error, expectedResponse.error);
-    });
-
-    test("Reply message error should throw an error", () {
-      HttpException expectedError = const HttpException("Invalid url");
-      when(mockMessageService.replyMessage(request)).thenThrow(expectedError);
-      verifyNever(mockMessageService.replyMessage(request));
-      expect(() => messageRepository.replyMessage(request),
           throwsA(const TypeMatcher<HttpException>()));
     });
   });

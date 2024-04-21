@@ -12,8 +12,10 @@ class LoginButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-          minimumSize: const Size.fromHeight(45),
-          padding: const EdgeInsets.all(12)),
+        minimumSize: const Size.fromHeight(45),
+        backgroundColor: Theme.of(context).primaryColor,
+        padding: const EdgeInsets.all(12),
+      ),
       child: Text(
         AppLocalizations.of(context)!.textLogin,
         style: const TextStyle(

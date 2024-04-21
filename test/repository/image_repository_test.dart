@@ -1,16 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:chopper/chopper.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:vita_client_app/data/model/entity/image_possibility.dart';
-import 'package:vita_client_app/data/model/response/response_error.dart';
-import 'package:vita_client_app/data/model/response/scanned_image.dart';
 import 'package:vita_client_app/data/source/local/image_dao.dart';
 import 'package:vita_client_app/data/source/network/image_service.dart';
 import 'package:vita_client_app/repository/image_repository.dart';
@@ -56,43 +51,6 @@ void main() {
       verifyNever(mockImageDao.pickImage(expectedImageSource));
       expect(() => imageRepository.pickImage(expectedImageSource),
           throwsA(const TypeMatcher<FileSystemException>()));
-    });
-  });
-
-  group("Scan image", () {
-    XFile expectedFile = createXFile();
-
-    test("Scan image success", () async {
-      ScannedImage scannedImage = createScannedImageResponse();
-      var expectedResponse = Response(
-          http.Response(jsonEncode(scannedImage.toJson()), 200), scannedImage);
-      when(mockImageService.scanImage(expectedFile.path))
-          .thenAnswer((_) => Future.value(expectedResponse));
-      var response = await imageRepository.scanImage(expectedFile);
-      verify(mockImageService.scanImage(expectedFile.path));
-      expect(response, expectedResponse);
-    });
-
-    test("Scan image failed should return response error", () async {
-      ResponseError expectedResponseError = createResponseError();
-      var expectedResponse = Response<ScannedImage>(
-          http.Response(jsonEncode(expectedResponseError.toJson()), 401), null,
-          error: expectedResponseError);
-      when(mockImageService.scanImage(expectedFile.path))
-          .thenAnswer((_) => Future.value(expectedResponse));
-      verifyNever(mockImageService.scanImage(expectedFile.path));
-      var response = await imageRepository.scanImage(expectedFile);
-      expect(response, expectedResponse);
-      expect(response.error, expectedResponse.error);
-    });
-
-    test("Scan image error should throw an error", () {
-      HttpException expectedError = const HttpException("Invalid url");
-      when(mockImageService.scanImage(expectedFile.path))
-          .thenThrow(expectedError);
-      verifyNever(mockImageService.scanImage(expectedFile.path));
-      expect(() => imageRepository.scanImage(expectedFile),
-          throwsA(const TypeMatcher<HttpException>()));
     });
   });
 

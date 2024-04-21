@@ -15,7 +15,9 @@ class RegisterButton extends StatelessWidget {
       onPressed: enabled ? onPressed : null,
       style: ElevatedButton.styleFrom(
           minimumSize: const Size.fromHeight(45),
-          padding: const EdgeInsets.all(12)),
+        padding: const EdgeInsets.all(12),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
       child: Text(
         AppLocalizations.of(context)!.textSignUp,
         style: const TextStyle(

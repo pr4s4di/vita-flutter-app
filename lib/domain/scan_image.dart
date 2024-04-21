@@ -1,6 +1,6 @@
 import 'package:image_picker/image_picker.dart';
-import 'package:vita_client_app/data/model/response/scanned_image.dart';
+import 'package:vita_client_app/data/model/entity/message.dart';
 
 abstract class ScanImage {
-  Future<ScannedImage> call(XFile image);
+  Future<List<Message>> call(XFile image, String message);
 }

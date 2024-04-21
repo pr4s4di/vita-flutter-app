@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vita_client_app/util/constant/font.dart';
+import 'package:vita_client_app/util/constant/routes.dart';
 import 'package:vita_client_app/util/extension/color_extension.dart';
 import 'package:vita_client_app/view/chat/bloc/chat_bloc.dart';
 import 'package:vita_client_app/view/chat/bloc/chat_state.dart';
 import 'package:vita_client_app/view/chat/widget/chat_select_media.dart';
 
-class ChatTextField extends StatefulWidget {
+class ChatImageTextField extends StatefulWidget {
   final TextEditingController controller;
 
-  const ChatTextField({super.key, required this.controller});
+  const ChatImageTextField({super.key, required this.controller});
 
   @override
-  State<ChatTextField> createState() => _ChatTextField();
+  State<ChatImageTextField> createState() => _ChatImageTextField();
 }
 
-class _ChatTextField extends State<ChatTextField> {
+class _ChatImageTextField extends State<ChatImageTextField> {
   @override
   Widget build(BuildContext context) {
     var inputBorder = const OutlineInputBorder(
@@ -76,11 +77,13 @@ class _ChatTextField extends State<ChatTextField> {
                       ? null
                       : () {
                           context.read<ChatBloc>().add(
-                              SendMessageEvent(widget.controller.value.text));
+                              ScanImageEvent(widget.controller.value.text));
                           setState(() {
                             FocusScope.of(context).unfocus();
                             widget.controller.clear();
                           });
+                          Navigator.of(context).popUntil(
+                              (route) => route.settings.name == Routes.chat);
                         },
                   child: Text(
                     AppLocalizations.of(context)!.sendButton,

@@ -11,11 +11,9 @@ class ChatEvent with _$ChatEvent {
 
   const factory ChatEvent.onResendMessage(String message) = ResendMessageEvent;
 
-  const factory ChatEvent.onScanImage(ImageSource source) = ScanImageEvent;
+  const factory ChatEvent.pickImage(ImageSource source) = PickImageEvent;
 
-  const factory ChatEvent.onRescanImage(XFile image) = RescanImageEvent;
-
-  const factory ChatEvent.onReplyMessage(String message) = ReplyMessageEvent;
+  const factory ChatEvent.onScanImage(String message) = ScanImageEvent;
 }
 
 @freezed
@@ -31,10 +29,6 @@ class ChatState with _$ChatState {
   const factory ChatState.messageSendingState() = ChatSendingState;
 
   const factory ChatState.messageSendedState() = ChatSendedState;
-
-  const factory ChatState.replyMessageSendingState() = ChatReplySendingState;
-
-  const factory ChatState.replyMessageSendedState() = ChatReplySendedState;
 
   const factory ChatState.imageSelectedState() = ImageSelectedState;
 

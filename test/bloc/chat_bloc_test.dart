@@ -12,7 +12,6 @@ import 'package:vita_client_app/data/model/request/send_message.dart'
 import 'package:vita_client_app/domain/load_message.dart';
 import 'package:vita_client_app/domain/load_possibility.dart';
 import 'package:vita_client_app/domain/pick_image.dart';
-import 'package:vita_client_app/domain/reply_message.dart';
 import 'package:vita_client_app/domain/scan_image.dart';
 import 'package:vita_client_app/domain/send_message.dart';
 import 'package:vita_client_app/view/chat/bloc/chat_bloc.dart';
@@ -27,7 +26,6 @@ import 'chat_bloc_test.mocks.dart';
   SendMessage,
   PickImage,
   ScanImage,
-  ReplyMessage
 ])
 void main() {
   late LoadMessage mockLoadMessage;
@@ -35,7 +33,6 @@ void main() {
   late SendMessage mockSendMessage;
   late PickImage mockPickImage;
   late ScanImage mockScanImage;
-  late ReplyMessage mockReplyMessage;
   late ChatBloc chatBloc;
 
   setUp(() {
@@ -44,9 +41,8 @@ void main() {
     mockSendMessage = MockSendMessage();
     mockPickImage = MockPickImage();
     mockScanImage = MockScanImage();
-    mockReplyMessage = MockReplyMessage();
     chatBloc = ChatBloc(mockLoadMessage, mockLoadPossibility, mockSendMessage,
-        mockPickImage, mockScanImage, mockReplyMessage);
+        mockPickImage, mockScanImage);
   });
 
   tearDown(() {

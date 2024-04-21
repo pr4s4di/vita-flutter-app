@@ -8,7 +8,6 @@ import 'package:vita_client_app/data/model/request/register_request.dart';
 import 'package:vita_client_app/data/model/request/reply_message.dart';
 import 'package:vita_client_app/data/model/request/send_message.dart';
 import 'package:vita_client_app/data/model/response/response_error.dart';
-import 'package:vita_client_app/data/model/response/scanned_image.dart';
 
 Message createMessage() => Message(
     randomBetween(0, 100),
@@ -39,8 +38,8 @@ ImagePossibility createImagePossiblity() =>
 List<ImagePossibility> createPossibilities() =>
     [createImagePossiblity(), createImagePossiblity(), createImagePossiblity()];
 
-ScannedImage createScannedImageResponse() =>
-    ScannedImage(createListMessage(), createPossibilities());
+List<Message> createScannedImageResponse() =>
+    [createMessage(), createMessage(), createMessage()];
 
 LoginRequest createLoginRequest() =>
     LoginRequest(randomString(5), randomString(5));
