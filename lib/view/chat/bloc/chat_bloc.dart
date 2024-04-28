@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
@@ -98,23 +97,13 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       await Task(() => _scanImage.call(selectedImage!, event.message))
           .run()
           .then((data) {
-        messages.removeAt(0);
-        messages.removeAt(1);
+        messages.removeRange(0, 2);
         messages.insertAll(0, data.reversed);
         emit(const ChatState.imageUploadedState());
       }).catchError((error) {
         messages.first.isError = true;
         emit(ChatState.error(error.toString()));
       });
-    });
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
     });
   }
 }

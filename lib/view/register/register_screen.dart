@@ -12,7 +12,6 @@ import 'package:vita_client_app/view/register/widgets/first_name_form_field.dart
 import 'package:vita_client_app/view/register/widgets/last_name_form_field.dart';
 import 'package:vita_client_app/view/register/widgets/nickname_form_field.dart';
 import 'package:vita_client_app/view/register/widgets/passwords_form_field.dart';
-import 'package:vita_client_app/view/register/widgets/policy_agreement.dart';
 import 'package:vita_client_app/view/widgets/alert.dart';
 import 'package:vita_client_app/view/widgets/dialog/loading_dialog.dart';
 import 'package:vita_client_app/view/widgets/image_logo.dart';
@@ -27,7 +26,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreen extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isAgreeToPrivacyPolicy = false;
 
   String _email = "";
   String _password = "";
@@ -90,29 +88,22 @@ class _RegisterScreen extends State<RegisterScreen> {
                     PasswordsFormField(onSave: (value) {
                       _password = value ?? "";
                     }),
-                    const SpaceVertical(),
-                    PolicyAgreement(
-                        isSelected: _isAgreeToPrivacyPolicy,
-                        onChange: (value) {
-                          setState(() {
-                            _isAgreeToPrivacyPolicy = !_isAgreeToPrivacyPolicy;
-                          });
-                        }),
                     const SpaceVertical(size: 16),
                     if (state is RegisterErrorState)
                       Alert.danger(text: state.message),
                     if (state is RegisterErrorState)
                       const SpaceVertical(size: 16),
                     RegisterButton(
-                        enabled: _isAgreeToPrivacyPolicy,
-                        onPressed: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            _formKey.currentState?.save();
-                            context.read<RegisterBloc>().add(PostRegisterEvent(
-                                RegisterRequest(_email, _password, _firstname,
-                                    _lastname, _nickname, _birthday.toUtc())));
-                          }
-                        })
+                      enabled: true,
+                      onPressed: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          _formKey.currentState?.save();
+                          context.read<RegisterBloc>().add(PostRegisterEvent(
+                              RegisterRequest(_email, _password, _firstname,
+                                  _lastname, _nickname, _birthday.toUtc())));
+                        }
+                      },
+                    )
                   ],
                 ),
               ),
