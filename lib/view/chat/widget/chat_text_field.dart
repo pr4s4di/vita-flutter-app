@@ -43,7 +43,9 @@ class _ChatTextField extends State<ChatTextField> {
                 },
                 textAlignVertical: TextAlignVertical.center,
                 style: Theme.of(context).textTheme.bodyMedium,
-                maxLines: null,
+                maxLines: 6,
+                minLines: 1,
+                keyboardType: TextInputType.multiline,
                 decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 18),
