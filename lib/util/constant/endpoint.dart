@@ -1,4 +1,4 @@
-const baseUrl = "https://ddb3-180-243-4-31.ngrok-free.app";
+const baseUrl = "http://146.190.106.13:8080";
 
 class Endpoint {
   static String message = "/message";
