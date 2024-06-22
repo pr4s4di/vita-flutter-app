@@ -5,11 +5,11 @@ part 'send_message.g.dart';
 
 @JsonSerializable()
 class SendMessage extends Equatable {
-  String message;
+  final String message;
   @JsonKey(includeFromJson: false, includeToJson: false)
-  bool isError = false;
+  final bool isError = false;
 
-  SendMessage(this.message);
+  const SendMessage(this.message);
 
   factory SendMessage.fromJson(Map<String, dynamic> json) =>
       _$SendMessageFromJson(json);

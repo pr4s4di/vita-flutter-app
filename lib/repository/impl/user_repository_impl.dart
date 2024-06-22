@@ -20,8 +20,8 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  insert(User user) {
-    _userDao.insert(user);
+  Future<void> insert(User user) async {
+    await _userDao.insert(user);
   }
 
   @override
@@ -45,7 +45,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  clear() {
-    _userDao.clear();
+  Future<void> clear() async {
+    await _userDao.clear();
   }
 }

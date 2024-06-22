@@ -8,14 +8,14 @@ class MessageDaoImpl implements MessageDao {
   MessageDaoImpl(this._boxMessage);
 
   @override
-  inserts(List<Message> messages) async {
+  Future<void> inserts(List<Message> messages) async {
     Map<int, Map<String, dynamic>> data = {};
 
     for (final message in messages) {
       data[message.id] = message.toJson();
     }
 
-    _boxMessage.putAll(data);
+    await _boxMessage.putAll(data);
   }
 
   @override

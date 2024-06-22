@@ -32,10 +32,7 @@ class ChatSend extends StatelessWidget {
                         spreadRadius: 0,
                         offset: const Offset(0, 0))
                   ]),
-              child: MarkdownBody(
-                data: message.message,
-                selectable: true,
-              ),
+              child: MarkdownBody(data: message.message),
             ),
           ),
         ],

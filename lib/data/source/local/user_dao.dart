@@ -1,7 +1,7 @@
 import 'package:vita_client_app/data/model/entity/user.dart';
 
 abstract class UserDao {
-  insert(User user);
+  Future<void> insert(User user);
 
   User read();
 
@@ -9,5 +9,5 @@ abstract class UserDao {
 
   bool isLoggedIn();
 
-  clear();
+  Future<void> clear();
 }

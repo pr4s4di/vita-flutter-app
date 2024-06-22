@@ -41,8 +41,8 @@ void main() {
     mockSendMessage = MockSendMessage();
     mockPickImage = MockPickImage();
     mockScanImage = MockScanImage();
-    chatBloc = ChatBloc(mockLoadMessage, mockLoadPossibility, mockSendMessage,
-        mockPickImage, mockScanImage);
+    chatBloc = ChatBloc(
+        mockLoadMessage, mockSendMessage, mockPickImage, mockScanImage);
   });
 
   tearDown(() {

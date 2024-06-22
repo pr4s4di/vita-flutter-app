@@ -17,7 +17,7 @@ class PostLoginImpl implements PostLogin {
     if (response.body != null) {
       LoginResponse data = response.body!;
       await _repository.clear();
-      _repository.insert(data.user);
+      await _repository.insert(data.user);
       return data.user;
     } else {
       throw response.error as ResponseError;

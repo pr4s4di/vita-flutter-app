@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:vita_client_app/data/model/entity/user.dart';
 import 'package:vita_client_app/data/source/local/user_dao.dart';
-import 'package:vita_client_app/data/source/network/chopper_service.dart';
 
 class UserDaoImpl implements UserDao {
   final Box<Map> _box;
@@ -18,9 +17,8 @@ class UserDaoImpl implements UserDao {
   }
 
   @override
-  insert(User user) {
-    interceptorToken = user.token;
-    _box.put(1, user.toJson());
+  Future<void> insert(User user) async {
+    await _box.put(1, user.toJson());
   }
 
   @override
@@ -30,18 +28,16 @@ class UserDaoImpl implements UserDao {
     });
     if (data == null) throw Exception("User not found");
     final user = User.fromJson(data);
-    interceptorToken = user.token;
     return user;
   }
 
   @override
   bool isLoggedIn() {
-    interceptorToken = read().token;
     return _box.isNotEmpty;
   }
 
   @override
-  clear() {
-    _box.clear();
+  Future<void> clear() async {
+    await _box.clear();
   }
 }

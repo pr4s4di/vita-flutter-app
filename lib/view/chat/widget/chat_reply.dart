@@ -35,12 +35,34 @@ class ChatReply extends StatelessWidget {
               child: MarkdownBody(
                 data: message.message,
                 selectable: true,
-                  onTapLink: (text, href, title) async {
-                    if (href != null) {
-                      final url = Uri.parse(href);
-                      if (await canLaunchUrl(url)) await launchUrl(url);
-                    }
-                  }),
+                onTapText: () {},
+                onSelectionChanged: (text, selection, selectionChangedCause) {},
+                styleSheet: MarkdownStyleSheet(
+                  code: const TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    color: Colors.black,
+                    backgroundColor: AssetColor.gray100,
+                  ),
+                  codeblockDecoration: BoxDecoration(
+                    color: AssetColor.gray100,
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black.withOpacity(0.15),
+                          blurRadius: 5,
+                          spreadRadius: 0,
+                          offset: const Offset(0, 0))
+                    ],
+                  ),
+                ),
+                onTapLink: (text, href, title) async {
+                  if (href != null) {
+                    final url = Uri.parse(href);
+                    if (await canLaunchUrl(url)) await launchUrl(url);
+                  }
+                },
+              ),
             ),
           ),
           ChatTextTime(time: message.createdDate),

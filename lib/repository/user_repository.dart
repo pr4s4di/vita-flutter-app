@@ -6,7 +6,7 @@ import 'package:vita_client_app/data/model/response/login_response.dart';
 import 'package:vita_client_app/data/model/response/register_response.dart';
 
 abstract class UserRepository {
-  insert(User user);
+  Future<void> insert(User user);
 
   User read();
 
@@ -14,7 +14,7 @@ abstract class UserRepository {
 
   bool isLoggedIn();
 
-  clear();
+  Future<void> clear();
 
   Future<Response<LoginResponse>> login(LoginRequest request);
 

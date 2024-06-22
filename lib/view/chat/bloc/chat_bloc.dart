@@ -5,7 +5,6 @@ import 'package:vita_client_app/data/model/request/send_message.dart'
     as request;
 import 'package:vita_client_app/data/model/request/upload_image.dart';
 import 'package:vita_client_app/domain/load_message.dart';
-import 'package:vita_client_app/domain/load_possibility.dart';
 import 'package:vita_client_app/domain/pick_image.dart';
 import 'package:vita_client_app/domain/scan_image.dart';
 import 'package:vita_client_app/domain/send_message.dart';
@@ -14,7 +13,6 @@ import 'package:vita_client_app/view/chat/bloc/chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final LoadMessage _loadMessage;
-  final LoadPossibility _loadPossibility;
   final SendMessage _sendMessage;
   final PickImage _pickImage;
   final ScanImage _scanImage;
@@ -22,18 +20,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   List messages = [];
   XFile? selectedImage;
 
-  ChatBloc(this._loadMessage, this._loadPossibility, this._sendMessage,
-      this._pickImage, this._scanImage)
+  ChatBloc(
+      this._loadMessage, this._sendMessage, this._pickImage, this._scanImage)
       : super(const ChatInitialState()) {
     on<LoadMessageEvent>((event, emit) async {
       emit(const ChatState.loading());
       var loadMessageResult = await _loadMessage();
-      var loadPossibilityResult = await _loadPossibility();
       messages.clear();
       messages.insertAll(0, loadMessageResult);
-      if (loadPossibilityResult.length > 1) {
-        messages.insert(0, loadPossibilityResult);
-      }
       emit(const ChatState.loadedState());
     });
 

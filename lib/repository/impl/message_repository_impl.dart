@@ -22,8 +22,8 @@ class MessageRepositoryImpl extends MessageRepository {
   }
 
   @override
-  inserts(List<Message> messages) {
-    _messageDao.inserts(messages);
+  Future<void> inserts(List<Message> messages) async {
+    await _messageDao.inserts(messages);
   }
 
   @override
@@ -32,7 +32,7 @@ class MessageRepositoryImpl extends MessageRepository {
   }
 
   @override
-  clear() async {
-    _messageDao.delete();
+  Future<void> clear() async {
+    await _messageDao.delete();
   }
 }
