@@ -18,44 +18,21 @@
 
     <meta charset="UTF-8">
     <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-    <meta content="Flutter project for vita app" name="description">
+    <meta content="A new Flutter project." name="description">
 
     <!-- iOS meta tags & icons -->
     <meta content="yes" name="apple-mobile-web-app-capable">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="vita_client_app" name="apple-mobile-web-app-title">
+    <meta content="vita_flutter_app" name="apple-mobile-web-app-title">
     <link href="icons/Icon-192.png" rel="apple-touch-icon">
 
     <!-- Favicon -->
     <link href="favicon.png" rel="icon" type="image/png"/>
 
-    <title>vita_client_app</title>
+    <title>vita_flutter_app</title>
     <link href="manifest.json" rel="manifest">
-
-    <script>
-    // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
-
-    </script>
-    <!-- This script adds the flutter initialization JS code -->
-    <script defer src="flutter.js"></script>
 </head>
 <body>
-<script>
-    window.addEventListener('load', function(ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
-    });
-
-</script>
+<script async src="flutter_bootstrap.js"></script>
 </body>
 </html>

@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,19 +16,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final LoadMessage _loadMessage;
   final LoadPossibility _loadPossibility;
   final SendMessage _sendMessage;
-  final PickImage _pickimage;
+  final PickImage _pickImage;
   final ScanImage _scanImage;
 
   List messages = [];
   XFile? selectedImage;
 
   ChatBloc(this._loadMessage, this._loadPossibility, this._sendMessage,
-      this._pickimage, this._scanImage)
+      this._pickImage, this._scanImage)
       : super(const ChatInitialState()) {
     on<LoadMessageEvent>((event, emit) async {
       emit(const ChatState.loading());
-      var loadMessageResult = await _loadMessage.call();
-      var loadPossibilityResult = await _loadPossibility.call();
+      var loadMessageResult = await _loadMessage();
+      var loadPossibilityResult = await _loadPossibility();
       messages.clear();
       messages.insertAll(0, loadMessageResult);
       if (loadPossibilityResult.length > 1) {
@@ -40,11 +39,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     on<SendMessageEvent>((event, emit) async {
       emit(const ChatState.messageSendingState());
-      await Task(() async {
-        var message = request.SendMessage(event.message);
-        messages.insert(0, message);
-        return await _sendMessage.call(message);
-      }).run().then((value) {
+      final message = request.SendMessage(event.message);
+      messages.insert(0, message);
+      await _sendMessage.call(message).then((value) {
         messages.removeAt(0);
         messages.insertAll(0, value.reversed.toList());
         emit(const ChatState.messageSendedState());
@@ -56,13 +53,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     on<ResendMessageEvent>((event, emit) async {
       emit(const ChatState.messageSendingState());
-      await Task(() async {
-        messages.removeWhere(
-            (e) => e is request.SendMessage && e.message == event.message);
-        var message = request.SendMessage(event.message);
-        messages.insert(0, message);
-        return await _sendMessage.call(message);
-      }).run().then((value) {
+
+      messages.removeWhere(
+          (e) => e is request.SendMessage && e.message == event.message);
+      final message = request.SendMessage(event.message);
+      messages.insert(0, message);
+      await _sendMessage.call(message).then((value) {
         messages.removeAt(0);
         messages.insertAll(0, value.reversed.toList());
         emit(const ChatState.messageSendedState());
@@ -74,7 +70,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     on<PickImageEvent>((event, emit) async {
       emit(const ChatState.imageUploadState());
-      await Task(() => _pickimage.call(event.source)).run().then((image) {
+
+      await _pickImage(event.source).then((image) {
         throwIf(image == null, ImageNotSelected());
         selectedImage = image;
         emit(const ChatState.imageSelectedState());
@@ -90,18 +87,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     on<ScanImageEvent>((event, emit) async {
       emit(const ChatState.imageUploadState());
-      var uploadImage = UploadImage(selectedImage!);
-      var message = request.SendMessage(event.message);
+
+      final uploadImage = UploadImage(selectedImage!);
+      final message = request.SendMessage(event.message);
       messages.insert(0, uploadImage);
       messages.insert(0, message);
-      await Task(() => _scanImage.call(selectedImage!, event.message))
-          .run()
-          .then((data) {
+
+      await _scanImage(selectedImage!, event.message).then((data) {
         messages.removeRange(0, 2);
         messages.insertAll(0, data.reversed);
         emit(const ChatState.imageUploadedState());
       }).catchError((error) {
-        messages.first.isError = true;
+        messages[0].isError = true;
+        messages[1].isError = true;
         emit(ChatState.error(error.toString()));
       });
     });

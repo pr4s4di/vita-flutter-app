@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,8 +46,14 @@ class ChatSendingImage extends StatelessWidget {
                             spreadRadius: 0,
                             offset: const Offset(0, 0))
                       ]),
-                  child:
-                      Opacity(opacity: 0.5, child: Image.file(File(file.path))),
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: kIsWeb
+                        ? Image.network(file.path)
+                        : Image.file(
+                            File(file.path),
+                          ),
+                  ),
                 ),
                 Column(
                   children: isError

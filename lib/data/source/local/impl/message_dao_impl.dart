@@ -1,24 +1,39 @@
+import 'package:hive/hive.dart';
 import 'package:vita_client_app/data/model/entity/message.dart';
 import 'package:vita_client_app/data/source/local/message_dao.dart';
-import 'package:vita_client_app/objectbox.g.dart';
 
 class MessageDaoImpl implements MessageDao {
-  final Box<Message> _boxMessage;
+  final Box<Map> _boxMessage;
 
   MessageDaoImpl(this._boxMessage);
 
   @override
   inserts(List<Message> messages) async {
-    _boxMessage.putMany(messages);
+    Map<int, Map<String, dynamic>> data = {};
+
+    for (final message in messages) {
+      data[message.id] = message.toJson();
+    }
+
+    _boxMessage.putAll(data);
   }
 
   @override
   Future<List<Message>> get() async {
-    return _boxMessage.getAll().reversed.toList();
+    List<Message> messages = [];
+
+    for (final key in _boxMessage.keys) {
+      final data = _boxMessage.get(key)?.map((key, value) {
+        return MapEntry(key.toString(), value);
+      });
+      messages.add(Message.fromJson(data!));
+    }
+
+    return messages;
   }
 
   @override
   Future<void> delete() async {
-    _boxMessage.removeAll();
+    await _boxMessage.clear();
   }
 }

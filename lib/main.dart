@@ -29,47 +29,44 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => SplashBloc(di.get(), di.get())),
-          BlocProvider(
-              create: (_) => ChatBloc(di.get(), di.get(), di.get(), di.get(), di.get())),
-          BlocProvider(create: (_) => LoginBloc(di.get(), di.get())),
-          BlocProvider(create: (_) => RegisterBloc(di.get())),
-          BlocProvider(create: (_) => ProfileBloc(di.get(), di.get()))
-        ],
-        child: MaterialApp(
-          title: 'Vita',
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          routes: {
-            Routes.splash: (_) => const SplashScreen(),
-            Routes.chat: (_) => ChatScreen(),
-            Routes.login: (_) => const LoginScreen(),
-            Routes.register: (_) => const RegisterScreen(),
-            Routes.profile: (_) => const ProfileScreen(),
-            Routes.chatImage: (_) => const ChatImageScreen(),
-          },
-          initialRoute: Routes.splash,
-          theme: ThemeData(
-              primarySwatch: Colors.blue,
-              fontFamily: poppins,
-              textTheme: const TextTheme(
-                titleSmall: TextStyle(fontFamily: poppins, fontSize: 12),
-                titleMedium:
-                    TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                titleLarge:
-                    TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-                bodySmall: TextStyle(fontSize: 12),
-                bodyMedium: TextStyle(fontSize: 14),
-                bodyLarge: TextStyle(fontSize: 18),
-                labelSmall:
-                    TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                labelMedium:
-                    TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                labelLarge:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              )),
-        ));
+      providers: [
+        BlocProvider(create: (_) => SplashBloc(di.get(), di.get())),
+        BlocProvider(
+            create: (_) =>
+                ChatBloc(di.get(), di.get(), di.get(), di.get(), di.get())),
+        BlocProvider(create: (_) => LoginBloc(di.get(), di.get())),
+        BlocProvider(create: (_) => RegisterBloc(di.get())),
+        BlocProvider(create: (_) => ProfileBloc(di.get(), di.get()))
+      ],
+      child: MaterialApp(
+        title: 'Vita',
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routes: {
+          Routes.splash: (_) => const SplashScreen(),
+          Routes.chat: (_) => ChatScreen(),
+          Routes.login: (_) => const LoginScreen(),
+          Routes.register: (_) => const RegisterScreen(),
+          Routes.profile: (_) => const ProfileScreen(),
+          Routes.chatImage: (_) => const ChatImageScreen(),
+        },
+        initialRoute: Routes.splash,
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: poppins,
+            textTheme: const TextTheme(
+              titleSmall: TextStyle(fontFamily: poppins, fontSize: 12),
+              titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              bodySmall: TextStyle(fontSize: 12),
+              bodyMedium: TextStyle(fontSize: 14),
+              bodyLarge: TextStyle(fontSize: 18),
+              labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              labelLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            )),
+      ),
+    );
   }
 }

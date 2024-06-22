@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:chopper/chopper.dart';
 import 'package:vita_client_app/data/model/response/response_error.dart';
@@ -14,9 +15,14 @@ class ResponseConverter extends JsonConverter {
         (jsonRes.body is String && (jsonRes.body as String).isEmpty)) {
       return jsonRes.copyWith(body: null);
     }
-    final dynamic body = jsonRes.body["data"]!;
-    final dynamic decodedItem = JsonTypeParser.decode<Item>(body);
-    return jsonRes.copyWith<ResultType>(body: decodedItem as ResultType);
+    try {
+      final dynamic body = jsonRes.body["data"]!;
+      final dynamic decodedItem = JsonTypeParser.decode<Item>(body);
+      return jsonRes.copyWith<ResultType>(body: decodedItem as ResultType);
+    } catch (e, stackTrace) {
+      log('Error parsing response', error: e, stackTrace: stackTrace);
+      return jsonRes.copyWith<ResultType>(body: null);
+    }
   }
 
   @override

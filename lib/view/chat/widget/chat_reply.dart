@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vita_client_app/data/model/entity/message.dart';
 import 'package:vita_client_app/util/extension/color_extension.dart';
 import 'package:vita_client_app/view/chat/widget/chat_text_time.dart';
@@ -34,7 +35,12 @@ class ChatReply extends StatelessWidget {
               child: MarkdownBody(
                 data: message.message,
                 selectable: true,
-              ),
+                  onTapLink: (text, href, title) async {
+                    if (href != null) {
+                      final url = Uri.parse(href);
+                      if (await canLaunchUrl(url)) await launchUrl(url);
+                    }
+                  }),
             ),
           ),
           ChatTextTime(time: message.createdDate),

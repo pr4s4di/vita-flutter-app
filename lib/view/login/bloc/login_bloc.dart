@@ -1,9 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vita_client_app/data/model/response/response_error.dart';
 import 'package:vita_client_app/domain/fetch_message.dart';
 import 'package:vita_client_app/domain/post_login.dart';
-import 'package:vita_client_app/util/extension/either_extension.dart';
 import 'package:vita_client_app/view/login/bloc/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -16,14 +14,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await event.when(
         onLogin: (request) async {
           emit(const LoginState.loading());
-          await Task(
-            () => _postLogin.call(request),
-          ).run().then((value) {
-            value.fold(
-              (failure) => emit(LoginState.error(failure.message)),
-              (success) => emit(const LoginState.success()),
-            );
-          }).catchError((error) {
+          await _postLogin(request).then((value) {
+            emit(const LoginState.success());
+          }).catchError((error, stackTrace) {
             if (error is ResponseError) {
               emit(LoginState.error(error.message));
             } else {
@@ -33,14 +26,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         },
         onFetchMessage: () async {
           emit(const LoginState.fetchMessageLoading());
-          await Task(
-            () => _fetchMessage.call(),
-          ).attempt().mapLeftToFailure().run().then((value) {
-            value.fold(
-              (l) => emit(LoginState.error(l.failure.toString())),
-              (r) => emit(const LoginState.fetchMessageSuccess()),
-            );
-          }).catchError((error) {
+          await _fetchMessage().then((value) {
+            emit(const LoginState.fetchMessageSuccess());
+          }).catchError((error, stackTrace) {
             if (error is ResponseError) {
               emit(LoginState.error(error.message));
             } else {

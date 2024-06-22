@@ -1,4 +1,7 @@
 import 'package:chopper/chopper.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart' as http_parser;
 import 'package:image_picker/image_picker.dart';
 import 'package:vita_client_app/data/model/entity/image_possibility.dart';
 import 'package:vita_client_app/data/model/entity/message.dart';
@@ -18,8 +21,23 @@ class ImageRepositoryImpl implements ImageRepository {
   }
 
   @override
-  Future<Response<List<Message>>> scanImage(XFile image, String message) {
-    return service.scanImage(image.path, message);
+  Future<Response<List<Message>>> scanImage(XFile image, String message) async {
+    if (kIsWeb) {
+      final contentType = "image/${image.name.split('.').last}";
+      final mediaType = http_parser.MediaType.parse(contentType);
+
+      return await service.scanImageWeb(
+        http.MultipartFile.fromBytes(
+          'image',
+          await image.readAsBytes(),
+          filename: image.name,
+          contentType: mediaType,
+        ),
+        message,
+      );
+    } else {
+      return await service.scanImage(image.path, message);
+    }
   }
 
   @override

@@ -9,6 +9,6 @@ class LoadMessageImpl implements LoadMessage {
 
   @override
   Future<List<Message>> call() {
-    return _repository.read();
+    return _repository.read().then((value) => value.reversed.toList());
   }
 }

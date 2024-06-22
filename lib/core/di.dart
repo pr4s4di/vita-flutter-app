@@ -1,28 +1,21 @@
 import 'package:chopper/chopper.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:vita_client_app/data/model/entity/image_possibility.dart';
-import 'package:vita_client_app/data/model/entity/message.dart';
-import 'package:vita_client_app/data/model/entity/user.dart';
 import 'package:vita_client_app/data/source/local/image_dao.dart';
 import 'package:vita_client_app/data/source/local/impl/image_dao_impl.dart';
 import 'package:vita_client_app/data/source/local/impl/message_dao_impl.dart';
 import 'package:vita_client_app/data/source/local/impl/user_dao_impl.dart';
 import 'package:vita_client_app/data/source/local/message_dao.dart';
-import 'package:vita_client_app/data/source/local/objectbox.dart';
 import 'package:vita_client_app/data/source/local/user_dao.dart';
 import 'package:vita_client_app/data/source/network/chopper_service.dart';
 import 'package:vita_client_app/data/source/network/image_service.dart';
 import 'package:vita_client_app/data/source/network/message_service.dart';
 import 'package:vita_client_app/data/source/network/user_service.dart';
-import 'package:vita_client_app/domain/check_connection.dart';
 import 'package:vita_client_app/domain/check_login.dart';
 import 'package:vita_client_app/domain/fetch_message.dart';
 import 'package:vita_client_app/domain/get_token.dart';
 import 'package:vita_client_app/domain/get_user.dart';
-import 'package:vita_client_app/domain/impl/check_connection_impl.dart';
 import 'package:vita_client_app/domain/impl/check_login_impl.dart';
 import 'package:vita_client_app/domain/impl/fetch_message_impl.dart';
 import 'package:vita_client_app/domain/impl/get_token_impl.dart';
@@ -53,26 +46,25 @@ import 'package:vita_client_app/repository/user_repository.dart';
 final di = GetIt.I;
 
 Future<void> setupDI() async {
-  di.allowReassignment = true;
+  // hive
+  await Hive.initFlutter();
 
-  // util
-  di.registerSingleton<InternetConnectionChecker>(
-      InternetConnectionChecker.createInstance());
+  await Hive.openBox<Map>('user');
+  await Hive.openBox<Map>('message');
+  await Hive.openBox<Map>('image_possibility');
+
+  final userBox = Hive.box<Map>('user');
+  final messageBox = Hive.box<Map>('message');
+  final imageBox = Hive.box<Map>('image_possibility');
 
   // dao
-  final objectBox = await ObjectBox.create();
   final imagePicker = ImagePicker();
-  di.registerSingleton<ObjectBox>(objectBox);
-  di.registerSingleton<Box<User>>(objectBox.store.box<User>());
-  di.registerSingleton<Box<Message>>(objectBox.store.box<Message>());
-  di.registerSingleton<Box<ImagePossibility>>(
-      objectBox.store.box<ImagePossibility>());
-  di.registerSingleton<MessageDao>(MessageDaoImpl(di.get()));
-  di.registerSingleton<ImageDao>(ImageDaoImpl(imagePicker, di.get()));
-  di.registerSingleton<UserDao>(UserDaoImpl(di.get()));
+  di.registerSingleton<MessageDao>(MessageDaoImpl(messageBox));
+  di.registerSingleton<ImageDao>(ImageDaoImpl(imagePicker, imageBox));
+  di.registerSingleton<UserDao>(UserDaoImpl(userBox));
 
   // service
-  di.registerSingleton<ChopperClient>(chopperClient());
+  di.registerSingleton<ChopperClient>(chopperClient);
   di.registerSingleton<MessageService>(
       di.get<ChopperClient>().getService<MessageService>());
   di.registerSingleton<ImageService>(
@@ -99,6 +91,5 @@ Future<void> setupDI() async {
   di.registerSingleton<PostLogin>(PostLoginImpl(di.get()));
   di.registerSingleton<PostRegister>(PostRegisterImpl(di.get(), di.get()));
   di.registerSingleton<GetToken>(GetTokenImpl(di.get()));
-  di.registerSingleton<CheckConnection>(CheckConnectionImpl(di.get()));
   di.registerSingleton<Logout>(LogoutImpl(di.get(), di.get(), di.get()));
 }

@@ -1,27 +1,21 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:objectbox/objectbox.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable()
-@Entity()
 class User extends Equatable {
-  @Id()
-  @JsonKey(includeToJson: false, includeFromJson: false)
-  int obxId = 0;
-  String email;
+  final String email;
   @JsonKey(name: "first_name")
-  String firstName;
+  final String firstName;
   @JsonKey(name: "last_name")
-  String lastName;
-  String nickname;
+  final String lastName;
+  final String nickname;
   @JsonKey(name: "birth_date")
-  @Property(type: PropertyType.date)
-  DateTime birthDate;
-  String token;
+  final DateTime birthDate;
+  final String token;
 
-  User(this.email, this.firstName, this.lastName, this.nickname,
+  const User(this.email, this.firstName, this.lastName, this.nickname,
       this.birthDate, this.token);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

@@ -1,5 +1,4 @@
 import 'package:chopper/chopper.dart';
-import 'package:dartz/dartz.dart';
 import 'package:vita_client_app/data/model/entity/user.dart';
 import 'package:vita_client_app/data/model/request/login_request.dart';
 import 'package:vita_client_app/data/model/response/login_response.dart';
@@ -13,15 +12,15 @@ class PostLoginImpl implements PostLogin {
   PostLoginImpl(this._repository);
 
   @override
-  Future<Either<ResponseError, User>> call(LoginRequest request) async {
+  Future<User> call(LoginRequest request) async {
     Response response = await _repository.login(request);
     if (response.body != null) {
       LoginResponse data = response.body!;
       await _repository.clear();
       _repository.insert(data.user);
-      return Right(data.user);
+      return data.user;
     } else {
-      return Left(response.error as ResponseError);
+      throw response.error as ResponseError;
     }
   }
 }
