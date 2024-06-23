@@ -1,4 +1,4 @@
-const baseUrl = "http://146.190.106.13:8080";
+const baseUrl = "https://app.vitamessage.live";
 
 class Endpoint {
   static String message = "/message";
