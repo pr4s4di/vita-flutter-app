@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vita_client_app/l10n/generated/app_localizations.dart';
 import 'package:vita_client_app/util/extension/color_extension.dart';
 
 class PolicyAgreement extends StatefulWidget {

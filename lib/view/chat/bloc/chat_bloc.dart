@@ -92,8 +92,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         messages.insertAll(0, data.reversed);
         emit(const ChatState.imageUploadedState());
       }).catchError((error) {
-        messages[0].isError = true;
-        messages[1].isError = true;
+        if (messages[0] != null) {
+          messages[0].isError = true;
+        }
+
+        if (messages[1] != null) {
+          messages[1].isError = true;
+        }
+
         emit(ChatState.error(error.toString()));
       });
     });

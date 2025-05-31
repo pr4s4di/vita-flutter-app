@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vita_client_app/core/di.dart';
+import 'package:vita_client_app/l10n/generated/app_localizations.dart';
 import 'package:vita_client_app/util/constant/font.dart';
 import 'package:vita_client_app/util/constant/routes.dart';
 import 'package:vita_client_app/view/chat/bloc/chat_bloc.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vita_client_app/generated/assets.dart';
+import 'package:vita_client_app/l10n/generated/app_localizations.dart';
 import 'package:vita_client_app/view/widgets/space_vertical.dart';
 import 'package:vita_client_app/view/widgets/user_form_field.dart';
 

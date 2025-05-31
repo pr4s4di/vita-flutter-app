@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vita_client_app/generated/assets.dart';
+import 'package:vita_client_app/l10n/generated/app_localizations.dart';
 import 'package:vita_client_app/util/constant/font.dart';
 import 'package:vita_client_app/util/extension/color_extension.dart';
 import 'package:vita_client_app/view/chat/bloc/chat_bloc.dart';

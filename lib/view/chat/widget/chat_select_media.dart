@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vita_client_app/generated/assets.dart';
+import 'package:vita_client_app/l10n/generated/app_localizations.dart';
 import 'package:vita_client_app/util/extension/color_extension.dart';
 
 class ChatSelectMedia extends StatefulWidget {
