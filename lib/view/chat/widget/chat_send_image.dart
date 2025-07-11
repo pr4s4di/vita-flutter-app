@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:vita_client_app/data/model/entity/message.dart';
+import 'package:vita_client_app/data/source/network/chopper_service.dart';
 import 'package:vita_client_app/util/constant/endpoint.dart';
 import 'package:vita_client_app/util/extension/color_extension.dart';
 import 'package:vita_client_app/view/chat/widget/chat_text_time.dart';
@@ -13,6 +14,7 @@ class ChatSendImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String url = "$baseUrl${Endpoint.image}/";
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
